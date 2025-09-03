@@ -53,6 +53,25 @@ A modernized Unity WebGL game with enhanced UI/UX design, background music, and 
 4. Use the music controls to adjust volume or pause music
 5. Click the fullscreen button for immersive gameplay
 
+## 🔧 Troubleshooting
+
+### Music Not Playing?
+**This is normal!** Modern browsers block automatic music playback for security reasons. Here's how to enable music:
+
+1. **Click anywhere on the page** - This enables audio playback
+2. **Click the music button** (🎵) in the top-right corner
+3. **Check your browser settings** - Ensure audio is not blocked
+4. **Look for the instruction banner** - It will guide you on enabling music
+
+### Common Solutions:
+- **Chrome**: Click the audio icon in the address bar and allow
+- **Firefox**: Check if audio is blocked in site permissions
+- **Safari**: Go to Safari > Preferences > Websites > Auto-Play
+- **Mobile**: Tap the screen to enable audio
+
+### Console Debugging:
+Open browser console (F12) to see music player status and any error messages.
+
 ## 🌐 Browser Compatibility
 - Chrome (recommended)
 - Firefox

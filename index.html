@@ -23,6 +23,19 @@
           </div>
         </div>
       </div>
+      <!-- Music Instruction Tooltip -->
+      <div id="music-instruction" class="music-tooltip">
+        <span>Click to enable music!</span>
+      </div>
+    </div>
+
+    <!-- Music Instruction Banner -->
+    <div id="music-banner" class="music-banner">
+      <div class="banner-content">
+        <span class="banner-icon">🎵</span>
+        <span class="banner-text">Click anywhere on the page to enable background music!</span>
+        <button id="banner-close" class="banner-close-btn">×</button>
+      </div>
     </div>
 
     <!-- Main Game Container -->
@@ -90,12 +103,65 @@
         ],
         isPlaying: false,
         volume: 0.5,
+        autoplayAttempted: false,
         
         init() {
           this.audio = new Audio();
           this.audio.volume = this.volume;
+          this.audio.preload = 'auto';
           this.loadTrack(0);
           this.setupEventListeners();
+          
+          // Try to enable autoplay with user interaction
+          this.enableAutoplay();
+        },
+        
+        enableAutoplay() {
+          // Try to enable autoplay by setting audio properties
+          this.audio.muted = false;
+          this.audio.autoplay = true;
+          
+          // Add click event listener to the entire document to enable audio
+          const enableAudioOnInteraction = () => {
+            if (!this.autoplayAttempted) {
+              this.autoplayAttempted = true;
+              this.audio.play().then(() => {
+                this.isPlaying = true;
+                document.getElementById('music-toggle').classList.add('playing');
+                document.getElementById('music-player').classList.add('music-playing');
+                this.hideMusicBanner();
+                console.log('Music autoplay enabled successfully!');
+              }).catch(error => {
+                console.log('Autoplay failed, waiting for user interaction:', error);
+                // Music will start when user interacts with the page
+              });
+              
+              // Remove the event listener after first interaction
+              document.removeEventListener('click', enableAudioOnInteraction);
+              document.removeEventListener('touchstart', enableAudioOnInteraction);
+              document.removeEventListener('keydown', enableAudioOnInteraction);
+            }
+          };
+          
+          // Listen for various user interactions
+          document.addEventListener('click', enableAudioOnInteraction);
+          document.addEventListener('touchstart', enableAudioOnInteraction);
+          document.addEventListener('keydown', enableAudioOnInteraction);
+          
+          // Also try to start music when Unity game loads
+          this.audio.addEventListener('canplaythrough', () => {
+            if (!this.autoplayAttempted) {
+              this.audio.play().then(() => {
+                this.isPlaying = true;
+                document.getElementById('music-toggle').classList.add('playing');
+                document.getElementById('music-player').classList.add('music-playing');
+                this.hideMusicBanner();
+                console.log('Music started when audio was ready!');
+              }).catch(error => {
+                console.log('Autoplay still blocked, waiting for user interaction');
+              });
+            }
+          });
         },
         
         loadTrack(index) {
@@ -115,15 +181,23 @@
         },
         
         play() {
-          this.audio.play();
-          this.isPlaying = true;
-          document.getElementById('music-toggle').classList.add('playing');
+          this.audio.play().then(() => {
+            this.isPlaying = true;
+            document.getElementById('music-toggle').classList.add('playing');
+            document.getElementById('music-player').classList.add('music-playing');
+            console.log('Music playing successfully!');
+          }).catch(error => {
+            console.error('Failed to play music:', error);
+            // Show user-friendly message
+            this.showMusicError();
+          });
         },
         
         pause() {
           this.audio.pause();
           this.isPlaying = false;
           document.getElementById('music-toggle').classList.remove('playing');
+          document.getElementById('music-player').classList.remove('music-playing');
         },
         
         setVolume(volume) {
@@ -131,10 +205,28 @@
           this.audio.volume = volume;
         },
         
+        showMusicError() {
+          // Show a friendly message about enabling audio
+          const message = "Click the music button to start playing music!";
+          unityShowBanner(message, "warning");
+        },
+        
         setupEventListeners() {
-          document.getElementById('music-toggle').addEventListener('click', () => this.toggle());
+          document.getElementById('music-toggle').addEventListener('click', () => {
+            this.toggle();
+            // Mark that user has interacted with audio
+            this.autoplayAttempted = true;
+            // Hide the instruction banner
+            this.hideMusicBanner();
+          });
+          
           document.getElementById('volume-slider').addEventListener('input', (e) => {
             this.setVolume(e.target.value / 100);
+          });
+          
+          // Banner close button
+          document.getElementById('banner-close').addEventListener('click', () => {
+            this.hideMusicBanner();
           });
           
           this.audio.addEventListener('ended', () => {
@@ -142,11 +234,41 @@
             this.loadTrack(this.currentTrackIndex);
             if (this.isPlaying) this.play();
           });
+          
+          // Handle audio errors
+          this.audio.addEventListener('error', (e) => {
+            console.error('Audio error:', e);
+            this.showMusicError();
+          });
+        },
+        
+        hideMusicBanner() {
+          const banner = document.getElementById('music-banner');
+          if (banner) {
+            banner.classList.add('hidden');
+            setTimeout(() => {
+              banner.style.display = 'none';
+            }, 500);
+          }
         }
       };
 
       // Initialize music player
       musicPlayer.init();
+      
+      // Test music functionality after a delay
+      setTimeout(() => {
+        console.log('Music player initialized. Current state:', {
+          isPlaying: musicPlayer.isPlaying,
+          autoplayAttempted: musicPlayer.autoplayAttempted,
+          audioReady: musicPlayer.audio.readyState
+        });
+        
+        // If music hasn't started, show instruction
+        if (!musicPlayer.isPlaying) {
+          console.log('Music not playing. Waiting for user interaction...');
+        }
+      }, 2000);
 
       // Unity Integration
       var container = document.querySelector("#unity-container");

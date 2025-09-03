@@ -51,6 +51,7 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  position: relative;
 }
 
 .music-btn:hover {
@@ -66,6 +67,108 @@ body {
 .music-icon {
   font-size: 20px;
   color: white;
+}
+
+/* Music Instruction Tooltip */
+.music-tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.music-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+#music-player:hover .music-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hide tooltip when music is playing */
+#music-player.music-playing .music-tooltip {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Music Instruction Banner */
+.music-banner {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 999;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  color: white;
+  border-radius: 15px;
+  padding: 15px 20px;
+  box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideInRight 0.5s ease;
+  max-width: 300px;
+  backdrop-filter: blur(10px);
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.banner-icon {
+  font-size: 20px;
+  animation: bounce 2s infinite;
+}
+
+.banner-text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.banner-close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.banner-close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* Hide banner when music is playing */
+.music-banner.hidden {
+  opacity: 0;
+  transform: translateX(100%);
+  pointer-events: none;
 }
 
 .music-info {
@@ -500,6 +603,22 @@ body {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* Smooth transitions for all interactive elements */
