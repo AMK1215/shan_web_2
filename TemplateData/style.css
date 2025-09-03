@@ -16,7 +16,7 @@ body {
 /* Music Player Styles */
 #music-player {
   position: fixed;
-  top: 20px;
+  top: 70px;
   right: 20px;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.95);
@@ -112,7 +112,7 @@ body {
 /* Music Instruction Banner */
 .music-banner {
   position: fixed;
-  top: 80px;
+  top: 130px;
   right: 20px;
   z-index: 999;
   background: linear-gradient(45deg, #ff6b6b, #ee5a24);
@@ -169,6 +169,124 @@ body {
   opacity: 0;
   transform: translateX(100%);
   pointer-events: none;
+}
+
+/* Marquee Text Banner */
+.marquee-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+  background-size: 200% 100%;
+  animation: gradientShift 3s ease infinite;
+  z-index: 998;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.marquee-banner:hover {
+  background: linear-gradient(90deg, #764ba2, #667eea, #764ba2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px);
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  animation: marqueeScroll 20s linear infinite;
+  white-space: nowrap;
+}
+
+.marquee-text {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0 50px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.marquee-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.marquee-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: rgba(0, 0, 0, 0.8);
+}
+
+.marquee-banner:hover .marquee-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Marquee Animation */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marqueeScrollReverse {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Gradient Shift Animation */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Responsive adjustments for marquee */
+@media (max-width: 768px) {
+  .marquee-banner {
+    height: 40px;
+  }
+  
+  .marquee-text {
+    font-size: 14px;
+    padding: 0 30px;
+  }
 }
 
 .music-info {

@@ -38,6 +38,18 @@
       </div>
     </div>
 
+    <!-- Marquee Text Banner -->
+    <div id="marquee-banner" class="marquee-banner">
+      <div class="marquee-content">
+        <span class="marquee-text">Delight Myanmar Shan Ko Mee For All The Lover of ShanKoMee Online Game</span>
+        <span class="marquee-text">Delight Myanmar Shan Ko Mee For All The Lover of ShanKoMee Online Game</span>
+        <span class="marquee-text">Delight Myanmar Shan Ko Mee For All The Lover of ShanKoMee Online Game</span>
+      </div>
+      <div class="marquee-tooltip">
+        <span>Click to change direction • Hover to pause</span>
+      </div>
+    </div>
+
     <!-- Main Game Container -->
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
@@ -255,6 +267,66 @@
 
       // Initialize music player
       musicPlayer.init();
+      
+      // Marquee Banner Management
+      const marqueeBanner = {
+        element: null,
+        content: null,
+        speed: 20, // seconds for one complete cycle
+        direction: 'left', // 'left' or 'right'
+        isPaused: false,
+        
+        init() {
+          this.element = document.getElementById('marquee-banner');
+          this.content = document.querySelector('.marquee-content');
+          this.setupControls();
+          this.updateAnimation();
+        },
+        
+        setupControls() {
+          // Add pause on hover functionality
+          this.element.addEventListener('mouseenter', () => {
+            this.pause();
+          });
+          
+          this.element.addEventListener('mouseleave', () => {
+            this.resume();
+          });
+          
+          // Add click to change direction
+          this.element.addEventListener('click', () => {
+            this.toggleDirection();
+          });
+        },
+        
+        pause() {
+          this.isPaused = true;
+          this.content.style.animationPlayState = 'paused';
+        },
+        
+        resume() {
+          this.isPaused = false;
+          this.content.style.animationPlayState = 'running';
+        },
+        
+        toggleDirection() {
+          this.direction = this.direction === 'left' ? 'right' : 'left';
+          this.updateAnimation();
+        },
+        
+        setSpeed(seconds) {
+          this.speed = seconds;
+          this.updateAnimation();
+        },
+        
+        updateAnimation() {
+          const animationName = this.direction === 'left' ? 'marqueeScroll' : 'marqueeScrollReverse';
+          this.content.style.animation = `${animationName} ${this.speed}s linear infinite`;
+        }
+      };
+      
+      // Initialize marquee banner
+      marqueeBanner.init();
       
       // Test music functionality after a delay
       setTimeout(() => {

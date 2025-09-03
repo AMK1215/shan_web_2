@@ -10,6 +10,17 @@ A modernized Unity WebGL game with enhanced UI/UX design, background music, and 
 - **Auto-play**: Music starts automatically when the game loads
 - **Track Rotation**: Automatically cycles between available music tracks
 - **Responsive Design**: Music player adapts to different screen sizes
+- **Browser Compatibility**: Handles modern browser autoplay restrictions
+- **User Guidance**: Clear instructions for enabling music playback
+
+### 📢 Marquee Text Banner
+- **Animated Text**: Smooth scrolling text from left to right
+- **Interactive Controls**: Click to change direction (left/right)
+- **Hover Pause**: Pause animation when hovering over banner
+- **Customizable Speed**: Adjustable scrolling speed
+- **Beautiful Design**: Gradient background with smooth animations
+- **Responsive**: Adapts to different screen sizes
+- **Message**: "Delight Myanmar Shan Ko Mee For All The Lover of ShanKoMee Online Game"
 
 ### 🎨 Modernized UI Design
 - **Beautiful Gradients**: Modern color schemes with smooth transitions
@@ -17,6 +28,7 @@ A modernized Unity WebGL game with enhanced UI/UX design, background music, and 
 - **Responsive Layout**: Optimized for both desktop and mobile devices
 - **Custom Fonts**: Poppins font family for better readability
 - **Hover Effects**: Interactive elements with smooth animations
+- **Marquee Banner**: Animated scrolling text banner with interactive controls
 
 ### 📱 Enhanced Loading Experience
 - **Progress Bar**: Visual loading progress with percentage display
