@@ -392,19 +392,50 @@
 
       // Responsive canvas sizing
       function resizeCanvas() {
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768) {
           container.className = "unity-mobile";
           canvas.className = "unity-mobile";
+          
+          // Ensure canvas fills mobile screen properly
+          canvas.style.width = "100%";
+          canvas.style.height = "100%";
+          
+          // Add mobile-specific touch handling
+          canvas.style.touchAction = "manipulation";
+          
+          console.log('Mobile mode activated');
         } else {
           container.className = "unity-desktop";
           canvas.className = "unity-desktop";
           canvas.style.width = "960px";
           canvas.style.height = "600px";
+          
+          console.log('Desktop mode activated');
         }
       }
 
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
+      
+      // Ensure game elements are clickable on mobile
+      function ensureMobileGameAccessibility() {
+        if (container.className === "unity-mobile") {
+          // Ensure canvas is properly positioned
+          canvas.style.position = "relative";
+          canvas.style.zIndex = "1";
+          
+          // Add touch event handling
+          canvas.addEventListener('touchstart', function(e) {
+            // Prevent default touch behavior that might interfere with game
+            e.preventDefault();
+          }, { passive: false });
+          
+          console.log('Mobile game accessibility ensured');
+        }
+      }
+      
+      // Call after Unity loads
+      setTimeout(ensureMobileGameAccessibility, 1000);
 
       // Show loading screen
       loadingBar.style.display = "block";

@@ -84,6 +84,28 @@ A modernized Unity WebGL game with enhanced UI/UX design, background music, and 
 ### Console Debugging:
 Open browser console (F12) to see music player status and any error messages.
 
+## 📱 Mobile Troubleshooting
+
+### Game Room Buttons Not Clickable?
+**Mobile-specific fixes implemented:**
+
+1. **Proper Positioning**: Game canvas is now properly positioned below the marquee banner
+2. **Touch Handling**: Enhanced touch event handling for mobile devices
+3. **Z-index Management**: Proper layering ensures game elements are accessible
+4. **Responsive Layout**: All UI elements are positioned to not block game content
+
+### Mobile UI Issues:
+- **Marquee Banner**: Reduced height and optimized for mobile
+- **Music Player**: Compact design that doesn't block game content
+- **Touch Controls**: Proper touch event handling for game interaction
+- **Screen Sizing**: Automatic detection and adjustment for mobile devices
+
+### Mobile Performance Tips:
+- Ensure mobile browser is up to date
+- Close other apps to free up memory
+- Use landscape mode for better game experience
+- Check if "Request Desktop Site" is disabled in mobile browser
+
 ## 🌐 Browser Compatibility
 - Chrome (recommended)
 - Firefox
